@@ -1,5 +1,4 @@
-# Make executable
-chmod +x 5-no_c.py
-
-# Add, commit and push
-git add 5-no_c.py && git commit -m "Add no_c function" && git push
+#!/usr/bin/python3
+def no_c(my_string):
+    """Removes all c and C from a string"""
+    return "".join([i for i in my_string if i != 'c' and i != 'C'])
