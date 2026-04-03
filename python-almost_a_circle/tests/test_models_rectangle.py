@@ -3,6 +3,7 @@
 import unittest
 import io
 import sys
+import os
 from models.base import Base
 from models.rectangle import Rectangle
 
@@ -28,6 +29,22 @@ class TestRectangle(unittest.TestCase):
     def test_rectangle_1_2_3_4_5(self):
         r = Rectangle(1, 2, 3, 4, 5)
         self.assertEqual(r.id, 5)
+
+    def test_rectangle_str1_2(self):
+        with self.assertRaises(TypeError):
+            Rectangle("1", 2)
+
+    def test_rectangle_1_str2(self):
+        with self.assertRaises(TypeError):
+            Rectangle(1, "2")
+
+    def test_rectangle_1_2_str3(self):
+        with self.assertRaises(TypeError):
+            Rectangle(1, 2, "3")
+
+    def test_rectangle_1_2_3_str4(self):
+        with self.assertRaises(TypeError):
+            Rectangle(1, 2, 3, "4")
 
     def test_rectangle_neg1_2(self):
         with self.assertRaises(ValueError):
@@ -105,6 +122,21 @@ class TestRectangle(unittest.TestCase):
         r.update(89, 1)
         self.assertEqual(r.width, 1)
 
+    def test_update_89_1_2(self):
+        r = Rectangle(1, 2)
+        r.update(89, 1, 2)
+        self.assertEqual(r.height, 2)
+
+    def test_update_89_1_2_3(self):
+        r = Rectangle(1, 2)
+        r.update(89, 1, 2, 3)
+        self.assertEqual(r.x, 3)
+
+    def test_update_89_1_2_3_4(self):
+        r = Rectangle(1, 2)
+        r.update(89, 1, 2, 3, 4)
+        self.assertEqual(r.y, 4)
+
     def test_create_id_89(self):
         r = Rectangle.create(**{'id': 89})
         self.assertEqual(r.id, 89)
@@ -127,21 +159,17 @@ class TestRectangle(unittest.TestCase):
 
     def test_save_to_file_none(self):
         Rectangle.save_to_file(None)
-        import os
         self.assertTrue(os.path.exists("Rectangle.json"))
 
     def test_save_to_file_empty(self):
         Rectangle.save_to_file([])
-        import os
         self.assertTrue(os.path.exists("Rectangle.json"))
 
     def test_save_to_file_list(self):
         Rectangle.save_to_file([Rectangle(1, 2)])
-        import os
         self.assertTrue(os.path.exists("Rectangle.json"))
 
     def test_load_from_file_no_file(self):
-        import os
         if os.path.exists("Rectangle.json"):
             os.remove("Rectangle.json")
         result = Rectangle.load_from_file()
