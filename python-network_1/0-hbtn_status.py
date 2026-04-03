@@ -1,16 +1,11 @@
 #!/usr/bin/python3
-"""A script that takes GitHub credentials."""
+"""Script that fetches https://alu-intranet.hbtn.io/status using urllib"""
+import urllib.request
 
 
-if __name__ == '__main__':
-    import requests
-    from requests.auth import HTTPBasicAuth
-    import sys
-
-    url = 'https://api.github.com/user'
-    user = sys.argv[1]
-    xyz = sys.argv[2]
-    authori = HTTPBasicAuth(username=user, password=xyz)
-    response = requests.get(url, auth=authori)
-    result = response.json()
-    print(result.get('id'))
+with urllib.request.urlopen("https://alu-intranet.hbtn.io/status") as response:
+    body = response.read()
+    print("Body response:")
+    print("\t- type: {}".format(type(body)))
+    print("\t- content: {}".format(body))
+    print("\t- utf8 content: {}".format(body.decode("utf-8")))
