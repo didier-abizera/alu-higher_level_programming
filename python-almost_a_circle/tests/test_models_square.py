@@ -118,7 +118,8 @@ class TestSquare(unittest.TestCase):
 
     def test_save_to_file_none(self):
         Square.save_to_file(None)
-        self.assertTrue(os.path.exists("Square.json"))
+        with open("Square.json") as f:
+            self.assertEqual(f.read(), "[]")
 
     def test_save_to_file_empty(self):
         Square.save_to_file([])

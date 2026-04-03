@@ -100,7 +100,7 @@ class TestRectangle(unittest.TestCase):
         sys.stdout = output
         r.display()
         sys.stdout = sys.__stdout__
-        self.assertIn("#", output.getvalue())
+        self.assertEqual(output.getvalue(), "\n ##\n ##\n")
 
     def test_to_dictionary(self):
         r = Rectangle(1, 2, 3, 4, 5)
@@ -159,7 +159,8 @@ class TestRectangle(unittest.TestCase):
 
     def test_save_to_file_none(self):
         Rectangle.save_to_file(None)
-        self.assertTrue(os.path.exists("Rectangle.json"))
+        with open("Rectangle.json") as f:
+            self.assertEqual(f.read(), "[]")
 
     def test_save_to_file_empty(self):
         Rectangle.save_to_file([])
